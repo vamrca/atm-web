@@ -21,21 +21,36 @@ public class BankAccountService {
                 customerId;
         ResponseEntity<BankAccount[]> response =
                 restTemplate.getForEntity(url, BankAccount[].class);
-
         BankAccount[] accounts = response.getBody();
-
         return Arrays.asList(accounts);
     }
-    private List<BankAccount> bankAccounts;
-    @PostConstruct
-    public void BankAccountService(){
-        bankAccounts = new ArrayList<>();
-    }
-    public void CreateAccount(BankAccount bankAccount){
-        bankAccounts.add(bankAccount);
+    //private List<BankAccount> bankAccounts;
+
+    public void openAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount";
+
+        restTemplate.postForObject(url, bankAccount, BankAccount.class);
     }
 
-    public ArrayList<BankAccount> getBankAccounts() {
-        return new ArrayList<>(this.bankAccounts);
+    public List<BankAccount> getBankAccounts() {
+        String url = "http://localhost:8091/api/bankaccount";
+
+        ResponseEntity<BankAccount[]> response =
+                restTemplate.getForEntity(url, BankAccount[].class);
+        BankAccount[] accounts = response.getBody();
+        return Arrays.asList(accounts);
     }
+
+    //@PostConstruct
+    //public void BankAccountService(){
+    //    bankAccounts = new ArrayList<>();
+    //}
+    //public void CreateAccount(BankAccount bankAccount){
+    //    bankAccounts.add(bankAccount);
+    //}
+
+    //public ArrayList<BankAccount> getBankAccounts() {
+    //    return new ArrayList<>(this.bankAccounts);
+    //}
+
 }
